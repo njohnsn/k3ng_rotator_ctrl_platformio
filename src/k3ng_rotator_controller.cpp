@@ -1867,6 +1867,87 @@ struct config_t {
   byte vSS2transient_message_status = NEXTION_TRANSIENT_MESSAGE_IDLE;  
 #endif
 
+void initialize_serial();
+
+void initialize_peripherals();
+
+void read_settings_from_eeprom();
+
+void initialize_pins();
+
+void read_azimuth(byte force_read);
+
+void initialize_display();
+
+void initialize_rotary_encoders();
+
+void initialize_interrupts();
+
+void run_this_once();
+
+void service_process_debug(byte action,byte process_id);
+
+void service_process_debug(byte action,byte process_id);
+
+void check_serial();
+
+void service_request_queue();
+
+void service_rotation();
+
+void az_check_operation_timeout();
+
+void check_buttons();
+
+void check_overlap();
+
+void check_brake_release();
+
+void check_az_speed_pot();
+
+void check_az_speed_pot();
+
+void check_az_preset_potentiometer();
+
+void output_debug();
+
+void check_for_dirty_configuration();
+
+void service_blink_led();
+
+void check_for_reset_flag();
+
+void digitalWriteEnhanced(uint8_t pin, uint8_t writevalue);
+
+int analogReadEnhanced(uint8_t pin);
+
+void update_az_variable_outputs(byte speed_voltage);
+
+int analogReadEnhanced(uint8_t pin);
+
+int digitalReadEnhanced(uint8_t pin);
+
+void submit_request(byte axis, byte request, float parm, byte called_by);
+
+void initialize_eeprom_with_defaults();
+
+void write_settings_to_eeprom();
+
+void analogWriteEnhanced(uint8_t pin, int writevalue);
+
+void change_tracking(byte action);
+
+void stop_rotation();
+
+void pinModeEnhanced(uint8_t pin, uint8_t mode);
+
+void read_headings();
+
+void brake_release(byte az_or_el, byte operation);
+
+void process_yaesu_command(byte * yaesu_command_buffer, int yaesu_command_buffer_index, byte source_port, char * return_string);
+
+byte process_backslash_command(byte input_buffer[], int input_buffer_index, byte source_port, byte include_response_code, char * return_string, byte input_source);
 
 
 /* ------------------ let's start doing some stuff now that we got the formalities out of the way --------------------*/
@@ -3398,7 +3479,7 @@ void check_serial(){
   #endif  
 
   static unsigned long serial_led_time = 0;
-  float tempfloat = 0;
+  [[maybe_unused]] float tempfloat = 0;
   char return_string[100] = ""; 
   static byte received_backslash = 0;
 
@@ -3409,8 +3490,8 @@ void check_serial(){
   #endif
 
   #if !defined(FEATURE_AZ_POSITION_ROTARY_ENCODER) && !defined(FEATURE_AZ_POSITION_PULSE_INPUT) && !defined(FEATURE_AZ_POSITION_ROTARY_ENCODER_USE_PJRC_LIBRARY)
-    long place_multiplier = 0;
-    byte decimalplace = 0;
+    [[maybe_unused]] long place_multiplier = 0;
+    [[maybe_unused]] byte decimalplace = 0;
   #endif
 
   #ifdef FEATURE_CLOCK
@@ -8106,7 +8187,7 @@ float float_map(float x, float in_min, float in_max, float out_min, float out_ma
 
 void convert_raw_azimuth_to_real_azimuth(){
 
-  float temp_azimuth = raw_azimuth;
+  [[maybe_unused]] float temp_azimuth = raw_azimuth;
 
   if (raw_azimuth >= 360){
     azimuth = raw_azimuth - float(int(raw_azimuth / 360) * 360.0);
@@ -13584,7 +13665,7 @@ float calculate_target_bearing(float source_latitude,float source_longitude,floa
 
   float teta1 = radians(source_latitude);
   float teta2 = radians(target_latitude);
-  float delta1 = radians(target_latitude-source_latitude);
+  [[maybe_unused]] float delta1 = radians(target_latitude-source_latitude);
   float delta2 = radians(target_longitude-source_longitude);
 
   
@@ -14621,13 +14702,13 @@ void strconditionalcpy(char *__dst, const char *__src, byte do_it){
 byte process_backslash_command(byte input_buffer[], int input_buffer_index, byte source_port, byte include_response_code, char * return_string, byte input_source){
 
   strcpy(return_string,"");
-  static unsigned long serial_led_time = 0;
-  float tempfloat = 0;
+  [[maybe_unused]] static unsigned long serial_led_time = 0;
+  [[maybe_unused]] float tempfloat = 0;
   byte hit_decimal = 0;
   long place_multiplier = 0;
   byte decimalplace = 0;
   byte x = 0;
-  int temp_int = 0;
+  [[maybe_unused]] int temp_int = 0;
 
   #if defined(FEATURE_PARK) && defined(FEATURE_NEXTION_DISPLAY)
     char workstring1[32];
@@ -14681,7 +14762,7 @@ byte process_backslash_command(byte input_buffer[], int input_buffer_index, byte
     byte valid_input_autopark = 0;
   #endif  
 
-  float new_azimuth_starting_point;
+  [[maybe_unused]] float new_azimuth_starting_point;
 
   byte brake_az_disabled;
 
@@ -17962,7 +18043,7 @@ void process_yaesu_command(byte * yaesu_command_buffer, int yaesu_command_buffer
     char tempstring[11] = "";
     int parsed_value = 0;
   
-    int parsed_elevation = 0;
+    [[maybe_unused]] int parsed_elevation = 0;
   
 
     #ifdef FEATURE_TIMED_BUFFER
